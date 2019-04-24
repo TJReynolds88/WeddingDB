@@ -22,13 +22,13 @@
             font-family: 'Mr De Haviland', cursive;
             font-size: 2.5em;
             position: relative;
-            top: 80px;
+            top: 60px;
             
         }
 
         h1{
             position: relative;
-            top: 60px;
+            top: 50px;
             font-weight:500; 
             font-size: 4em;
 
@@ -36,7 +36,7 @@
 
         h3{
             position: relative;
-            bottom: 70px;
+            bottom: 80px;
             font-weight: 400;
             font-family: 'Cinzel', serif;
 
@@ -46,7 +46,7 @@
         
         h5{
             position: relative;
-            bottom: 100px;
+            bottom: 120px;
             font-weight: 500;
             font-family: 'Cinzel', serif;
 
@@ -56,82 +56,40 @@
         form{
 
             position: relative;
-            bottom: 160px;
+            bottom: 180px;
 
 
         }
-
-        h2{
-            text-align: center;
-            position: relative;
-            top: 130px;
-
-            
-        }
-
-
-
-
-
-
-
 
     </style>
     </head>
 <body>
 
+
 <div class="container">
     <h1> Welcome</h1>
     <h3> Amy & TJ</h3>
     <h5>June 6th 2014 <br>Please find your seat. <br> Enter your name below</h5>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get">
+    <form action="code.php" onsubmit="return checkname()" method="get" name="reg">
     Last Name: <input type="text" name="lastname" placeholder="" maxlength="25">
-    <input type="submit" onclick="submit()" >
+    <input type="submit" value="Submit"> 
     </form>
 </div>
 
+
 <script>
+function checkname(){
+    var name = document.forms["reg"]["lastname"].value;
+    if (name == "") {
+        alert("Please Enter A Name In The Field");
+  
+      return false;
+    }
+}
+        
+
 
 </script>
-
-<?php
-require_once "../../../db_connect.php";
-
-// Get user input of last name and sanitize
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $lastname = test_input($_GET["lastname"]);
-}
-
-function test_input($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-$sql = "SELECT * FROM `members` WHERE last_name = '$lastname'";
-
-//Check for last name
-if ($result = $conn->query($sql)) {
-
-    if ($result->fetchColumn() > 0) {
-
-        foreach ($conn->query($sql) as $row) {
-            print "<h2>The " . $row['last_name'] . "'s" . "\n";
-            print "table number is " . $row['table_number'] . "</div>" ."\n";
-        }
-    }
-    // No rows matched, error message
-    else {
-        print "<h2>We're sorry we could not find your table</h2>";
-    }
-}
-
-$res = null;
-$conn = null;
-
-?>
 
 </body>
 </html>
